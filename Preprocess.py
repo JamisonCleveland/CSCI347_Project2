@@ -5,6 +5,7 @@ def largest_connected_component(filename):
     # Read the CSV file
     with open(filename) as csvfile:
         reader = csv.reader(csvfile)
+        next(reader)
         edges = [(row[0], row[1]) for row in reader]
 
     # Create a graph and add the edges
