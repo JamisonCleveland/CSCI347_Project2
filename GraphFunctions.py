@@ -23,11 +23,13 @@ def vertex_degree(edges, vertex_index):
 def clustering_coefficient(edges, vertex_index):
     neighbors = set()
     for edge in edges:
+        # add to neighbors if vertex exists in an edge (finds adjacent nodes)
         if vertex_index in edge:
             neighbors.add(edge[0] if edge[1] == vertex_index else edge[1])
     if len(neighbors) < 2:
         return 0.0
     num_edges = 0
+    # count how many edges are between vertices adjacent to the vertex index
     for i in neighbors:
         for j in neighbors:
             if (i, j) in edges or (j, i) in edges:
