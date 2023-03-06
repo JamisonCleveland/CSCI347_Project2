@@ -7,12 +7,10 @@ from Preprocess import largest_connected_component
 G = largest_connected_component('lastfm_asia_edges.csv')
 
 def num_vertices(edges):
-    # empty set to store all vertices
     vertices = set()
     for edge in edges:
         vertices.add(edge[0])
         vertices.add(edge[1])
-    # Return the size of the set
     return len(vertices)
 
 def vertex_degree(edges, vertex_index):
