@@ -38,3 +38,9 @@ def clustering_coefficient(edges, vertex_index):
     length = len(neighbors)
     clustering = 2.0 * num_edges / (length * (length - 1))
     return clustering
+
+# ----- FUNCTION CALLS -------
+# NOTE: for vertex index, use the number of a specific node.
+print("Number of vertices: ", num_vertices(G))
+print("Degree: ", vertex_degree(G, 1200)) #test index
+print("Clustering Coefficient: ", clustering_coefficient(G, 1200)) #test index
