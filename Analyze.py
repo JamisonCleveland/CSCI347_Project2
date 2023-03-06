@@ -8,7 +8,6 @@ import GraphFunctions as gf
 
 def random_sample_by_nodes(G, p):
     nodes = len(G)
-    print(nodes)
     random_nodes = random.sample(list(G), int(nodes * p))
     return nx.subgraph(G, random_nodes)
 
@@ -16,11 +15,11 @@ G = largest_connected_component('lastfm_asia_edges.csv')
 
 # random sample of the graph, since nx.draw is too slow for such a large graph
 G = random_sample_by_nodes(G, 0.15)
-print(len(G.edges))
 
 # 11. [5 points] Produce a visualization of the graph (or graph sample that you used).
-plt.figure(1)
 nx.draw(G, node_size=10)
+#plt.savefig("graph.png")
+plt.show()
 
 # 12. [3 points] Find the 10 nodes with the highest degree.
 degrees = (gf.vertex_degree(G.edges, v_idx) for v_idx in G)
@@ -42,7 +41,7 @@ while len(top_10_by_cc) < 10 and neg_clustering_coeffs:
         continue
     top_10_by_cc.append(val)
 
-print('Top 10 nodes by cc:', top_10_by_cc)
+print('Top 10 nodes by clustering coefficients:', top_10_by_cc)
 
 # 15. [3 points] Find the top 10 nodes as ranked by eigenvector centrality
 ### TODO
@@ -61,6 +60,3 @@ print('Top 10 nodes by cc:', top_10_by_cc)
 
 # 20. [3 points EXTRA CREDIT] Create a log-log plot with the logarithm of node degree on the x-axis and the logarithm of the average clustering coefficient of nodes with that degree on the y-axis. Does the clustering coefficient exhibit power law behavior (is there a clustering effect)? Include the plot and the code used to generate it in your submission. μL
 ### TODO
-
-plt.show()
-#plt.savefig("graph.png")
