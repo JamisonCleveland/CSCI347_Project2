@@ -6,17 +6,7 @@ import heapq
 from Preprocess import largest_connected_component
 import GraphFunctions as gf
 
-def random_sample_by_nodes(G: nx.Graph, p: float) -> nx.Graph:
-    nodes = len(G)
-    random_nodes = random.sample(list(G), int(nodes * p))
-    return G.subgraph(random_nodes)
-
-G = largest_connected_component('lastfm_asia_edges.csv')
-
-# random sample of the graph, since nx.draw is too slow for such a large graph
-G = random_sample_by_nodes(G, 0.15)
-# and largest cc for the sample
-G = G.subgraph(max(nx.connected_components(G), key=len))
+G = largest_connected_component('lastfm_asia_edges.csv', pct=0.15)
 
 # 11. [5 points] Produce a visualization of the graph (or graph sample that you used).
 nx.draw(G, node_size=10)
