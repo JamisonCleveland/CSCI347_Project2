@@ -178,6 +178,20 @@ def betweenness_centrality_fast(G: nx.Graph):
     return bcs
 
 
+def adjacency_matrix(G):
+
+    G = np.array(G)
+    G.flatten()
+    adjMat = np.zeros([len(np.unique(G)), len(np.unique(G))])
+
+    for edge in G:
+        adjMat[edge[0]-1][edge[1]-1] = 1
+        adjMat[edge[1]-1][edge[0]-1] = 1
+
+    return(adjMat)
+
+
+
 # ----- FUNCTION CALLS -------
 # NOTE: for vertex index, use the number of a specific node.
 if __name__ == '__main__':
