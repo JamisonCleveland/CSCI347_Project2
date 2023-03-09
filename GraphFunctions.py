@@ -1,6 +1,7 @@
 import networkx as nx
 import pandas as pd
 import csv
+import numpy as np
 
 #Preprocess the dataset
 from Preprocess import largest_connected_component
@@ -95,7 +96,7 @@ def average_shortest_path_length(G):
     vertexes = np.unique(G2)
 
     graph = {}
-    for i in range(1, len(vertexes)+1):
+    for i in vertexes:
         graph[i] = [n for n in G1.neighbors(i)]
 
     possiblePaths = [(a, b) for idx, a in enumerate(vertexes) for b in vertexes[idx + 1:]]
