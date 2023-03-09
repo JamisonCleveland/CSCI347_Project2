@@ -2,6 +2,7 @@ import networkx as nx
 import pandas as pd
 import csv
 import numpy as np
+from collections import defaultdict 
 
 #Preprocess the dataset
 from Preprocess import largest_connected_component
@@ -133,10 +134,56 @@ def average_shortest_path_length(G):
     ans = sum/len(possiblePaths)
     return(ans)
 
+def betweenness_centrality_fast(G: nx.Graph):
+    bcs = defaultdict(lambda: 0.0)
+    for s in G:
+        # BFS from `s`
+        stack = []
+        predecessors = defaultdict(list)
+        paths_through = defaultdict(lambda: 0)
+        paths_through[s] = 1
+        dist = {}
+        dist[s] = 0
+        queue = [s]
+        while queue:
+            v = queue.pop(0)
+            stack.append(v)
+
+            for w in G[v]:
+                # visit w
+                if w not in dist:
+                    queue.append(w)
+                    dist[w] = dist[v] + 1
+                
+                # if `w` is a shortest path distance from `s`
+                if dist[w] == dist[v] + 1:
+                    paths_through[w] += paths_through[v]
+                    predecessors[w].append(v)
+        
+        # Accumulate values
+        delta = defaultdict(lambda: 0.0)
+        while stack:
+            w = stack.pop()
+            coeff = (1 + delta[w]) / paths_through[w]
+            for v in predecessors[w]:
+                delta[v] += paths_through[v] * coeff
+            if w != s:
+                bcs[w] += delta[w]
+
+    # Rescale
+    n = len(bcs)
+    for k in bcs.keys():
+        bcs[k] /= n * (n - 1)
+
+    return bcs
+
 
 # ----- FUNCTION CALLS -------
 # NOTE: for vertex index, use the number of a specific node.
 if __name__ == '__main__':
+    v = 7199
     print("Number of vertices: ", num_vertices(G.edges))
-    print("Degree: ", vertex_degree(G.edges, 1200)) #test index
-    print("Clustering Coefficient: ", clustering_coefficient(G.edges, 1200)) #test index
+    print("Degree: ", vertex_degree(G.edges, v)) #test index
+    print("Clustering Coefficient: ", clustering_coefficient(G.edges, v)) #test index
+    print("Betweenness centrality fast: ", betweenness_centrality_fast(G)[v]) #test index
+    print("Betweenness centrality fast: ", betweenness_centrality(G.edges, v)) #test index
